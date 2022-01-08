@@ -1,0 +1,38 @@
+openapi: "3.0.0"
+info:
+  title: Ecommerce V3 backend
+  description: Backend for ecommerce-v3
+  version: 1.0.0
+  contact:
+    email: jbzsanjay2000@gmail.com
+    url: "https://jabezsanjay.tech"
+
+servers:
+  - url: "{protocol}://{url}/api/{version}"
+    description: for local host 
+    variables:
+      version:
+        enum:
+          - v1
+          - v2
+        default: v1
+      url:
+        enum:
+          - localhost:4000
+          - lcotshirtstore.herokuapp.com
+        default: localhost:4000
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+    BearerAuth:
+      type: http
+      scheme: bearer
