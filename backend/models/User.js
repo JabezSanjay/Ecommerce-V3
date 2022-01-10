@@ -17,14 +17,8 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: {
-    id: {
-      type: String,
-      required: [true, 'Please provide a photo id'],
-    },
-    secureUrl: {
-      type: String,
-      required: [true, 'Please provide a secure url'],
-    },
+    id: String,
+    secureUrl: String,
   },
   role: {
     type: String,
@@ -42,7 +36,7 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: Date,
   active: {
     type: Boolean,
-    default: true,
+    default: false,
     select: false,
   },
   createdAt: {
