@@ -83,7 +83,7 @@ exports.forgotPassword = BigPromise(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
   const forgotPasswordUrl = `${req.protocol}://${req.get(
     'host'
-  )}/password/reset/${forgotPasswordToken}`;
+  )}/api/password/reset/${forgotPasswordToken}`;
   const message = `A unique link to reset your password has been generated for you. To reset your password, click the following link and follow the instructions.`;
   try {
     await mailHelper({
@@ -104,13 +104,29 @@ exports.forgotPassword = BigPromise(async (req, res, next) => {
   }
 });
 
-exports.forgotPassword = BigPromise(async (req, res, next) => {
+exports.resetPassword = BigPromise(async (req, res, next) => {
   const token = req.params.token;
+  const { password, confirmPassword } = req.body;
   const encryptedToken = crypto
     .createHash('sha256')
     .update(token)
     .digest('hex');
   const user = await User.findOne({
     encryptedToken,
+    passwordResetExpires: { $gt: Date.now() },
   });
+  if (!user) {
+    return next(new CustomError('Token is invalid or expired!', 400));
+  }
+  if (password !== confirmPassword) {
+    return next(
+      new CustomError('Password and confirm password does not match!', 400)
+    );
+  }
+  user.password = password;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  user.passwordChangedAt = new Date();
+  await user.save({ validateBeforeSave: false });
+  cookieToken(user, res);
 });
