@@ -18,9 +18,17 @@ app.use(express.urlencoded({ extended: true }));
 
 //Cookies and File middleware
 app.use(cookieParser());
-app.use(fileUpload());
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
+  })
+);
 
 //Morgan middleware
 app.use(morgan('tiny'));
+
+//Import all other routes
+app.use('/api', require('./routes/User'));
 
 module.exports = app;
