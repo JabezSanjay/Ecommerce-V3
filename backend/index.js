@@ -1,10 +1,12 @@
 const app = require('./app');
 const connectWithDb = require('./config/db');
+const { connectWithRedis } = require('./config/redis');
 require('dotenv').config();
 const cloudinary = require('cloudinary');
 
 //Database connection
 connectWithDb();
+connectWithRedis();
 
 //Cloudinary configuration
 cloudinary.config({
