@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please tell us your name!'],
   },
+  googleId: String,
   email: {
     type: String,
     required: [true, 'Please provide your email'],
