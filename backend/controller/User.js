@@ -55,6 +55,9 @@ exports.signin = BigPromise(async (req, res, next) => {
   if (!user) {
     return next(new CustomError('User does not exists!', 404));
   }
+  if (user.googleId) {
+    return next(new CustomError('User is registered with Google!', 400));
+  }
   const isPasswordValid = await user.validatePassword(password);
   if (!isPasswordValid) {
     return next(new CustomError('Email and password does not match', 400));
