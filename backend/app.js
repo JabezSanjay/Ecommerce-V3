@@ -43,5 +43,6 @@ app.use(passport.session());
 
 //Import all other routes
 app.use('/api', require('./routes/User'));
+app.use('/api', require('./routes/Product'));
 
 module.exports = app;
