@@ -1,9 +1,15 @@
 const express = require('express');
-const { test } = require('../controller/Product');
+const { createProduct, getProducts } = require('../controller/Product');
 const { isLoggedIn, customRole } = require('../middleware/user');
 const router = express.Router();
 const cookieToken = require('../utils/cookieToken');
 
-router.route('/product').get(test);
+//Admin routes
+router
+  .route('/admin/create/product')
+  .post(isLoggedIn, customRole('admin'), createProduct);
+
+//User routes
+router.route('/get/products').get(getProducts);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const User = require('../models/User');
-const fileUpload = require('express-fileupload');
 const cloudinary = require('cloudinary');
 const crypto = require('crypto');
 const BigPromise = require('../middleware/bigPromise');
