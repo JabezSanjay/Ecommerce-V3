@@ -45,5 +45,6 @@ app.use(passport.session());
 app.use('/api', require('./routes/User'));
 app.use('/api', require('./routes/Product'));
 app.use('/api', require('./routes/Payment'));
+app.use('/api', require('./routes/Order'));
 
 module.exports = app;
