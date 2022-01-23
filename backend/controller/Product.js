@@ -7,7 +7,7 @@ exports.createProduct = BigPromise(async (req, res, next) => {
   let photos;
   const imageArray = [];
   if (!req.files) {
-    return next(new CustomError('Image is required!', 400));
+    return next(new CustomError('Image is required!', 400, res));
   }
 
   if (req.files.photos.length) {
@@ -43,9 +43,7 @@ exports.createProduct = BigPromise(async (req, res, next) => {
 });
 
 exports.getProducts = BigPromise(async (req, res, next) => {
-  const page = req.query.page || 1;
   const limit = req.query.limit || 10;
-  const search = req.query.search || '';
   let products = new WhereClause(Product.find(), req.query);
   products.search();
   products.filter();
