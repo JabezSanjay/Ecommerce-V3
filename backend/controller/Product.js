@@ -54,3 +54,14 @@ exports.getProducts = BigPromise(async (req, res, next) => {
     data: products,
   });
 });
+
+exports.getOneProduct = BigPromise(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    return next(new CustomError('Product not found!', 404, res));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: product,
+  });
+});
