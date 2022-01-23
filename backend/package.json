@@ -30,6 +30,7 @@
     "passport-google-oauth20": "^2.0.0",
     "razorpay": "^2.8.0",
     "redis": "^4.0.1",
+    "stripe": "^8.199.0",
     "swagger-ui-express": "^4.3.0",
     "validator": "^13.7.0",
     "yamljs": "^0.3.0"
