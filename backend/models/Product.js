@@ -58,7 +58,7 @@ const productSchema = new mongoose.Schema({
       },
       comment: {
         type: String,
-        required: [true, 'Please provide a name'],
+        required: [true, 'Please provide a comment'],
       },
       rating: {
         type: Number,
@@ -70,6 +70,10 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'Please provide a user'],
+  },
+  updatedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   },
   createdAt: {
     type: Date,
