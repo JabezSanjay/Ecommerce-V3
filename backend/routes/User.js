@@ -15,9 +15,25 @@ const {
 } = require('../controller/User');
 const { isLoggedIn, customRole } = require('../middleware/user');
 const router = express.Router();
+const passport = require('passport');
+const cookieToken = require('../utils/cookieToken');
 
 router.route('/signup').post(signup);
 router.route('/signin').post(signin);
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
+  (req, res) => {
+    res.send('google');
+  }
+);
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
+  (req, res) => {
+    cookieToken(req.user, res);
+  }
+);
 router.route('/logout').get(logout);
 router.route('/forgot-password').post(forgotPassword);
 router.route('/password/reset/:token').post(resetPassword);
