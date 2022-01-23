@@ -12,7 +12,7 @@ exports.isLoggedIn = BigPromise(async (req, res, next) => {
       : (token = req.header('Authorization').replace('Bearer ', ''));
   }
   if (!token) {
-    return next(new CustomError('Login to get access!', 401));
+    return next(new CustomError('Login to get access!', 401, res));
   }
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
   req.user = await User.findById(decoded.id);
@@ -22,7 +22,7 @@ exports.isLoggedIn = BigPromise(async (req, res, next) => {
 exports.customRole = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return next(new CustomError('Access Denied!', 403));
+      return next(new CustomError('Access Denied!', 403, res));
     }
     next();
   };

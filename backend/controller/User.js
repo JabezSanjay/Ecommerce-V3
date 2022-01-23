@@ -1,5 +1,4 @@
 const User = require('../models/User');
-const fileUpload = require('express-fileupload');
 const cloudinary = require('cloudinary');
 const crypto = require('crypto');
 const BigPromise = require('../middleware/bigPromise');
@@ -20,11 +19,13 @@ exports.signup = BigPromise(async (req, res, next) => {
   }
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
-    return next(new CustomError('Name, email and password are required!', 400));
+    return next(
+      new CustomError('Name, email and password are required!', 400, res)
+    );
   }
   const user = await User.findOne({ email });
   if (user) {
-    return next(new CustomError('User already exists', 400));
+    return next(new CustomError('User already exists', 400, res));
   }
   if (req.files) {
     newUser = await User.create({
@@ -49,18 +50,20 @@ exports.signup = BigPromise(async (req, res, next) => {
 exports.signin = BigPromise(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return next(new CustomError('Please enter both Email and Password!', 400));
+    return next(
+      new CustomError('Please enter both Email and Password!', 400, res)
+    );
   }
   const user = await User.findOne({ email }).select('+password');
   if (!user) {
-    return next(new CustomError('User does not exists!', 404));
+    return next(new CustomError('User does not exists!', 404, res));
   }
   if (user.googleId) {
-    return next(new CustomError('User is registered with Google!', 400));
+    return next(new CustomError('User is registered with Google!', 400, res));
   }
   const isPasswordValid = await user.validatePassword(password);
   if (!isPasswordValid) {
-    return next(new CustomError('Email and password does not match', 400));
+    return next(new CustomError('Email and password does not match', 400, res));
   }
   cookieToken(user, res);
 });
@@ -80,7 +83,7 @@ exports.forgotPassword = BigPromise(async (req, res, next) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    return next(new CustomError('User does not exists', 404));
+    return next(new CustomError('User does not exists', 404, res));
   }
   const forgotPasswordToken = await user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
@@ -103,7 +106,7 @@ exports.forgotPassword = BigPromise(async (req, res, next) => {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
-    return next(new CustomError(error.message, 500));
+    return next(new CustomError(error.message, 500, res));
   }
 });
 
@@ -119,11 +122,11 @@ exports.resetPassword = BigPromise(async (req, res, next) => {
     passwordResetExpires: { $gt: Date.now() },
   });
   if (!user) {
-    return next(new CustomError('Token is invalid or expired!', 400));
+    return next(new CustomError('Token is invalid or expired!', 400, res));
   }
   if (password !== confirmPassword) {
     return next(
-      new CustomError('Password and confirm password does not match!', 400)
+      new CustomError('Password and confirm password does not match!', 400, res)
     );
   }
   user.password = password;
@@ -148,7 +151,7 @@ exports.changePassword = BigPromise(async (req, res, next) => {
   const user = await User.findById(userId).select('+password');
   const isOldPasswordValid = await user.validatePassword(oldPassword);
   if (!isOldPasswordValid) {
-    return next(new CustomError('Incorrect password!', 400));
+    return next(new CustomError('Incorrect password!', 400, res));
   }
   user.password = newPassword;
   user.passwordChangedAt = new Date();
@@ -199,7 +202,7 @@ exports.adminGetAllUsers = BigPromise(async (req, res, next) => {
 exports.adminGetOneUser = BigPromise(async (req, res, next) => {
   let user = await User.findById(req.params.id);
   if (!user) {
-    return next(new CustomError('User not found!', 404));
+    return next(new CustomError('User not found!', 404, res));
   }
   res.status(200).json({
     success: true,
@@ -227,7 +230,7 @@ exports.adminEditOneUser = BigPromise(async (req, res, next) => {
 exports.adminDeleteOneUser = BigPromise(async (req, res, next) => {
   const user = await User.findById(req.params.id);
   if (!user) {
-    return next(new CustomError('User not found!', 404));
+    return next(new CustomError('User not found!', 404, res));
   }
   await cloudinary.v2.uploader.destroy(user.photo.id);
   await user.remove();
