@@ -1,10 +1,11 @@
 import React from 'react';
+import Navbar from '../../components/Layout/Navbar';
 
 const Signin = () => {
   return (
-    <div>
-      <h1>Signin</h1>
-    </div>
+    <>
+      <Navbar />
+    </>
   );
 };
 
