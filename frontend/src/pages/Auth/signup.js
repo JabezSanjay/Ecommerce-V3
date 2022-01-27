@@ -1,29 +1,125 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Link } from 'react-router-dom';
+import SignUpImage from '../../assets/images/auth/signup-page.jpg';
 import GoogleIcon from '../../assets/images/icons/google-icon.png';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import Navbar from '../../components/Layout/Navbar';
+
+const schema = yup
+  .object({
+    userName: yup
+      .string()
+      .required('Name is required!')
+      .min(3, 'Name must be atleast 3 characters long!'),
+    email: yup
+      .string()
+      .email('Enter a valid email!')
+      .required('Email is required!'),
+    password: yup
+      .string()
+      .required('Password is required!')
+      .min(6, 'Password must be atleast 6 characters long!'),
+  })
+  .required();
 
 const Signup = () => {
+  const [submitted, setSubmitted] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const onSubmit = (data) => console.log(data);
   return (
-    <div className='relative min-h-screen bg-primary-900 text-white font-medium flex justify-center'>
-      <div className='max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1'>
-        <div className='lg:w-1/2 xl:w-5/12 p-6 sm:p-12'>
-          <div className='mt-12 flex flex-col items-center'>
-            <h1 className='text-2xl xl:text-3xl font-extrabold'>
-              Sign up to buy!
-            </h1>
-            <div className='w-full flex-1 mt-8'>
-              <div className='flex flex-col items-center'>
-                <button className='w-full max-w-xs font-semibold rounded-lg py-3 border text-gray-900 bg-gray-100 hocus:bg-gray-200 hocus:border-gray-400 flex items-center justify-center transition-all duration-300 focus:outline-none focus:shadow-outline text-sm mt-5 first:mt-0'>
-                  <span className='bg-white p-2 rounded-full'>
-                    <img src={GoogleIcon} className='w-4' alt='' />
-                  </span>
-                  <span className='ml-4'>Sign in with Google</span>
-                </button>
+    <>
+      <Navbar />
+      <div className='flex items-center min-h-[92vh] bg-gray-50 p-5'>
+        <div className='flex-1 h-full max-w-4xl mx-auto bg-white rounded-lg shadow-xl'>
+          <div className='flex flex-col md:flex-row'>
+            <div className='h-32 md:h-auto md:w-1/2'>
+              <img
+                className='object-cover w-full h-full'
+                src={SignUpImage}
+                alt='img'
+              />
+            </div>
+            <div className='flex items-center justify-center p-6 sm:p-12 md:w-1/2'>
+              <div className='w-full'>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <h1 className='mb-4 text-2xl font-bold text-center text-gray-700'>
+                    Sign up
+                  </h1>
+                  <div>
+                    <Input
+                      type='text'
+                      name='Name'
+                      placeholder='Enter your user name'
+                      formValidation={{ ...register('userName') }}
+                      formInputName='userName'
+                      errorText={errors.userName?.message}
+                      register={register}
+                      error={errors}
+                    />
+                    <Input
+                      type='email'
+                      name='Email'
+                      placeholder='Enter your email'
+                      formValidation={{ ...register('email') }}
+                      formInputName='email'
+                      errorText={errors.email?.message}
+                      register={register}
+                      error={errors}
+                    />
+                    <Input
+                      type='password'
+                      name='Password'
+                      placeholder='Enter your password'
+                      formValidation={{ ...register('password') }}
+                      formInputName='password'
+                      errorText={errors.password?.message}
+                      register={register}
+                      error={errors}
+                    />
+                  </div>
+                  <Button
+                    name='Sign up'
+                    onClick={() => setSubmitted(!submitted)}
+                  />
+                </form>
+                <div className='mt-3 text-center'>
+                  <span className='font-medium text-gray-500 text-sm'>Or</span>
+                  <div className='flex flex-col items-center'>
+                    <button className='w-full font-semibold rounded-lg py-1 border text-gray-900 bg-gray-100 hocus:bg-gray-200 hocus:border-gray-400 flex items-center justify-center transition-all duration-300 focus:outline-none focus:shadow-outline text-sm my-3'>
+                      <span className='bg-white p-2 rounded-full'>
+                        <img src={GoogleIcon} className='w-4' alt='' />
+                      </span>
+                      <span className='ml-4'>Sign in with Google</span>
+                    </button>
+                  </div>
+                </div>
+                <div className='mt-4 text-center'>
+                  <p className='text-sm'>
+                    Already have an account?
+                    <Link
+                      to='/signin'
+                      className='text-primary-600 hover:underline ml-2'
+                    >
+                      Sign in
+                    </Link>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
