@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { Link } from 'react-router-dom';
 import SignUpImage from '../../assets/images/auth/signup-page.jpg';
 import GoogleIcon from '../../assets/images/icons/google-icon.png';
 import Button from '../../components/Button';
@@ -49,46 +50,48 @@ const Signup = () => {
               />
             </div>
             <div className='flex items-center justify-center p-6 sm:p-12 md:w-1/2'>
-              <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
-                <h1 className='mb-4 text-2xl font-bold text-center text-gray-700'>
-                  Sign up
-                </h1>
-                <div>
-                  <Input
-                    type='text'
-                    name='Name'
-                    placeholder='Enter your user name'
-                    formValidation={{ ...register('userName') }}
-                    formInputName='userName'
-                    errorText={errors.userName?.message}
-                    register={register}
-                    error={errors}
+              <div className='w-full'>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <h1 className='mb-4 text-2xl font-bold text-center text-gray-700'>
+                    Sign up
+                  </h1>
+                  <div>
+                    <Input
+                      type='text'
+                      name='Name'
+                      placeholder='Enter your user name'
+                      formValidation={{ ...register('userName') }}
+                      formInputName='userName'
+                      errorText={errors.userName?.message}
+                      register={register}
+                      error={errors}
+                    />
+                    <Input
+                      type='email'
+                      name='Email'
+                      placeholder='Enter your email'
+                      formValidation={{ ...register('email') }}
+                      formInputName='email'
+                      errorText={errors.email?.message}
+                      register={register}
+                      error={errors}
+                    />
+                    <Input
+                      type='password'
+                      name='Password'
+                      placeholder='Enter your password'
+                      formValidation={{ ...register('password') }}
+                      formInputName='password'
+                      errorText={errors.password?.message}
+                      register={register}
+                      error={errors}
+                    />
+                  </div>
+                  <Button
+                    name='Sign up'
+                    onClick={() => setSubmitted(!submitted)}
                   />
-                  <Input
-                    type='email'
-                    name='Email'
-                    placeholder='Enter your email'
-                    formValidation={{ ...register('email') }}
-                    formInputName='email'
-                    errorText={errors.email?.message}
-                    register={register}
-                    error={errors}
-                  />
-                  <Input
-                    type='password'
-                    name='Password'
-                    placeholder='Enter your password'
-                    formValidation={{ ...register('password') }}
-                    formInputName='password'
-                    errorText={errors.password?.message}
-                    register={register}
-                    error={errors}
-                  />
-                </div>
-                <Button
-                  name='Sign up'
-                  onClick={() => setSubmitted(!submitted)}
-                />
+                </form>
                 <div className='mt-3 text-center'>
                   <span className='font-medium text-gray-500 text-sm'>Or</span>
                   <div className='flex flex-col items-center'>
@@ -103,15 +106,15 @@ const Signup = () => {
                 <div className='mt-4 text-center'>
                   <p className='text-sm'>
                     Already have an account?
-                    <a
-                      href='/'
+                    <Link
+                      to='/signin'
                       className='text-primary-600 hover:underline ml-2'
                     >
-                      Sign in.
-                    </a>
+                      Sign in
+                    </Link>
                   </p>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
