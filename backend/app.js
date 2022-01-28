@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
@@ -18,6 +19,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //Regular middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({ credentials: true, origin: true }));
 
 //Cookies and File middleware
 app.use(

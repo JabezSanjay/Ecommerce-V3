@@ -2,16 +2,20 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import SignUpImage from '../../assets/images/auth/signup-page.jpg';
 import GoogleIcon from '../../assets/images/icons/google-icon.png';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Navbar from '../../components/Layout/Navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { signupUser, signupUserGoogle } from './helpers';
+import Toast from '../../components/Toast';
 
 const schema = yup
   .object({
-    userName: yup
+    name: yup
       .string()
       .required('Name is required!')
       .min(3, 'Name must be atleast 3 characters long!'),
@@ -27,15 +31,36 @@ const schema = yup
   .required();
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const signUpProcess = useSelector((state) => state);
   const [submitted, setSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    await signupUser(data, dispatch).then((response) => {
+      if (!response.success) {
+        toast.error(response.message);
+      } else {
+        toast.success('User created successfully!');
+      }
+    });
+    reset();
+  };
+  const onSubmitGoogle = async (data) => {
+    await signupUserGoogle(dispatch).then((response) => {
+      if (!response.success) {
+        toast.error(response.message);
+      } else {
+        toast.success('User created successfully!');
+      }
+    });
+  };
   return (
     <>
       <Navbar />
@@ -60,9 +85,9 @@ const Signup = () => {
                       type='text'
                       name='Name'
                       placeholder='Enter your user name'
-                      formValidation={{ ...register('userName') }}
-                      formInputName='userName'
-                      errorText={errors.userName?.message}
+                      formValidation={{ ...register('name') }}
+                      formInputName='name'
+                      errorText={errors.name?.message}
                       register={register}
                       error={errors}
                     />
@@ -90,12 +115,16 @@ const Signup = () => {
                   <Button
                     name='Sign up'
                     onClick={() => setSubmitted(!submitted)}
+                    loading={signUpProcess.auth.loading}
                   />
                 </form>
                 <div className='mt-3 text-center'>
                   <span className='font-medium text-gray-500 text-sm'>Or</span>
                   <div className='flex flex-col items-center'>
-                    <button className='w-full font-semibold rounded-lg py-1 border text-gray-900 bg-gray-100 hocus:bg-gray-200 hocus:border-gray-400 flex items-center justify-center transition-all duration-300 focus:outline-none focus:shadow-outline text-sm my-3'>
+                    <button
+                      onClick={onSubmitGoogle}
+                      className='w-full font-semibold rounded-lg py-1 border text-gray-900 bg-gray-100 hocus:bg-gray-200 hocus:border-gray-400 flex items-center justify-center transition-all duration-300 focus:outline-none focus:shadow-outline text-sm my-3'
+                    >
                       <span className='bg-white p-2 rounded-full'>
                         <img src={GoogleIcon} className='w-4' alt='' />
                       </span>
@@ -119,6 +148,8 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      {}
+      <Toast />
     </>
   );
 };
