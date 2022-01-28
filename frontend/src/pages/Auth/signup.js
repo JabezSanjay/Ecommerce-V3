@@ -10,7 +10,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Navbar from '../../components/Layout/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { signupUser, signupUserGoogle } from './helpers';
+import { signupUser, signInUserGoogle } from './helpers';
 import Toast from '../../components/Toast';
 
 const schema = yup
@@ -52,14 +52,8 @@ const Signup = () => {
     });
     reset();
   };
-  const onSubmitGoogle = async (data) => {
-    await signupUserGoogle(dispatch).then((response) => {
-      if (!response.success) {
-        toast.error(response.message);
-      } else {
-        toast.success('User created successfully!');
-      }
-    });
+  const onSubmitGoogle = async () => {
+    await signInUserGoogle(dispatch);
   };
   return (
     <>

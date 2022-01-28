@@ -3,11 +3,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import SigninImage from '../../assets/images/auth/signin-page.jpeg';
 import GoogleIcon from '../../assets/images/icons/google-icon.png';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Navbar from '../../components/Layout/Navbar';
+import { signinUser } from './helpers';
+import { useDispatch, useSelector } from 'react-redux';
+import Toast from '../../components/Toast';
 
 const schema = yup
   .object({
@@ -15,14 +19,13 @@ const schema = yup
       .string()
       .email('Enter a valid email!')
       .required('Email is required!'),
-    password: yup
-      .string()
-      .required('Password is required!')
-      .min(6, 'Password must be atleast 6 characters long!'),
+    password: yup.string().required('Password is required!'),
   })
   .required();
-
 const Signin = () => {
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   const [submitted, setSubmitted] = useState(false);
   const {
     register,
@@ -31,7 +34,15 @@ const Signin = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    await signinUser(data, dispatch).then((response) => {
+      if (!response.success) {
+        toast.error(response.message);
+      } else {
+        toast.success('User signin successful!');
+      }
+    });
+  };
   return (
     <>
       <Navbar />
@@ -76,6 +87,7 @@ const Signin = () => {
                   <Button
                     name='Sign in'
                     onClick={() => setSubmitted(!submitted)}
+                    loading={auth.loading}
                   />
                 </form>
                 <div className='mt-3 text-center'>
@@ -105,6 +117,7 @@ const Signin = () => {
           </div>
         </div>
       </div>
+      <Toast />
     </>
   );
 };
