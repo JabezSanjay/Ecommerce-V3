@@ -31,11 +31,11 @@ export const signinUser = async (user, dispatch) => {
     if (response.data.success) {
       dispatch(signinUserSuccess());
     } else {
-      dispatch(signupUserError(response.data.message));
+      dispatch(signinUserError(response.data.message));
     }
     return response.data;
   } catch (error) {
-    await dispatch(signupUserError());
+    await dispatch(signinUserError());
   }
 };
 
