@@ -1,5 +1,7 @@
 import axios from '../../../axiosConfig';
 import {
+  logoutUserError,
+  logoutUserSuccess,
   signinUserError,
   signinUserInProgress,
   signinUserSuccess,
@@ -31,11 +33,26 @@ export const signinUser = async (user, dispatch) => {
     if (response.data.success) {
       dispatch(signinUserSuccess());
     } else {
-      dispatch(signinUserError(response.data.message));
+      dispatch(signinUserError(response.data.success));
     }
     return response.data;
   } catch (error) {
     await dispatch(signinUserError());
+  }
+};
+
+export const logoutUser = async (dispatch) => {
+  try {
+    let response = await axios.get('/logout');
+    User.clearUserDetails();
+    if (response.data.success) {
+      dispatch(logoutUserSuccess());
+    } else {
+      dispatch(logoutUserError(response.data.success));
+    }
+    return response.data;
+  } catch (error) {
+    await dispatch(logoutUserError());
   }
 };
 

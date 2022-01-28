@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 
 const storeKeys = {
   user: {
-    userDetails: 'session',
+    userDetails: 'token',
   },
 };
 

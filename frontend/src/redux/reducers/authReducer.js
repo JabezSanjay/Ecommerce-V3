@@ -33,6 +33,13 @@ const authSlice = createSlice({
       state.error = true;
       state.loading = false;
     },
+    logoutUserSuccess: (state, action) => {
+      state.isLoggedIn = false;
+      state.userInfo = {};
+    },
+    logoutUserError: (state, action) => {
+      state.error = true;
+    },
   },
 });
 
@@ -43,5 +50,7 @@ export const {
   signinUserInProgress,
   signinUserSuccess,
   signinUserError,
+  logoutUserSuccess,
+  logoutUserError,
 } = authSlice.actions;
 export default authSlice.reducer;
