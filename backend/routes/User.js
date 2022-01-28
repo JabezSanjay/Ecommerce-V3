@@ -29,7 +29,12 @@ router.get(
 );
 router.get(
   '/google/callback',
-  passport.authenticate('google', { scope: ['profile', 'email'] }),
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    successMessage: 'User created successfully!',
+    successRedirect: process.env.CLIENT_URL,
+    failureRedirect: process.env.CLIENT_URL,
+  }),
   (req, res) => {
     cookieToken(req.user, res);
   }

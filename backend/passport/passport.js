@@ -20,11 +20,13 @@ passport.use(
       callbackURL: process.env.GOOGLE_CALLBACK_URL,
     },
     async (accessToken, refreshToken, profile, next) => {
+      console.log('HERE', profile);
       try {
         User.findOne({
           email: profile.emails[0].value,
         }).then((user) => {
           if (user) {
+            console.log('HERE', user);
             next(null, user);
           } else {
             const newUser = new User({
