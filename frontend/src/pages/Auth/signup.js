@@ -5,12 +5,12 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import SignUpImage from '../../assets/images/auth/signup-page.jpg';
-import GoogleIcon from '../../assets/images/icons/google-icon.png';
+// import GoogleIcon from '../../assets/images/icons/google-icon.png';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Navbar from '../../components/Layout/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { signupUser, signInUserGoogle } from './helpers';
+import { signupUser } from './helpers';
 import Toast from '../../components/Toast';
 import AuthCard from '../../components/AuthCard';
 
@@ -52,9 +52,6 @@ const Signup = () => {
       }
     });
     reset();
-  };
-  const onSubmitGoogle = async () => {
-    await signInUserGoogle(dispatch);
   };
   return (
     <>
@@ -111,7 +108,7 @@ const Signup = () => {
                 loading={signUpProcess.auth.loading}
               />
             </form>
-            <div className='mt-3 text-center'>
+            {/* <div className='mt-3 text-center'>
               <span className='font-medium text-gray-500 text-sm'>Or</span>
               <div className='flex flex-col items-center'>
                 <button
@@ -124,7 +121,7 @@ const Signup = () => {
                   <span className='ml-4'>Sign in with Google</span>
                 </button>
               </div>
-            </div>
+            </div> */}
             <div className='mt-4 text-center'>
               <p className='text-sm'>
                 Already have an account?

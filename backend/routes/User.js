@@ -31,12 +31,9 @@ router.get(
   '/google/callback',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-    successMessage: 'User created successfully!',
-    successRedirect: process.env.CLIENT_URL,
-    failureRedirect: process.env.CLIENT_URL,
   }),
   (req, res) => {
-    cookieToken(req.user, res);
+    res.redirect(`${process.env.CLIENT_URL}?token=${req.user.token}`);
   }
 );
 router.route('/logout').get(logout);

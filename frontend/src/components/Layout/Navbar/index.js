@@ -99,6 +99,7 @@ const Navbar = () => {
               </span>
             </span>
           )}
+          {auth.isLoggedIn && <p>{auth.userInfo.name}</p>}
         </nav>
       </div>
       <Toast />

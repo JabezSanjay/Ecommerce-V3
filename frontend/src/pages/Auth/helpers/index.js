@@ -31,7 +31,7 @@ export const signinUser = async (user, dispatch) => {
     dispatch(signinUserInProgress());
     let response = await axios.post('/signin', user);
     if (response.data.success) {
-      dispatch(signinUserSuccess());
+      dispatch(signinUserSuccess(response.data.data));
     } else {
       dispatch(signinUserError(response.data.success));
     }
@@ -59,7 +59,8 @@ export const logoutUser = async (dispatch) => {
 export const signInUserGoogle = async (dispatch) => {
   try {
     dispatch(signupUserInProgress());
-    window.open('http://localhost:4000/api/google', '_blank');
+    window.open('http://localhost:4000/api/google', '_self');
+    console.log('HERE 1');
     return;
   } catch (error) {
     await dispatch(signupUserError());

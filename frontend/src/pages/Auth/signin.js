@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import SigninImage from '../../assets/images/auth/signin-page.jpeg';
-import GoogleIcon from '../../assets/images/icons/google-icon.png';
+// import GoogleIcon from '../../assets/images/icons/google-icon.png';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Navbar from '../../components/Layout/Navbar';
@@ -90,7 +90,7 @@ const Signin = () => {
                 loading={auth.loading}
               />
             </form>
-            <div className='mt-3 text-center'>
+            {/* <div className='mt-3 text-center'>
               <span className='font-medium text-gray-500 text-sm'>Or</span>
               <div className='flex flex-col items-center'>
                 <button className='w-full font-semibold rounded-lg py-1 border text-gray-900 bg-gray-100 hocus:bg-gray-200 hocus:border-gray-400 flex items-center justify-center transition-all duration-300 focus:outline-none focus:shadow-outline text-sm my-3'>
@@ -100,7 +100,7 @@ const Signin = () => {
                   <span className='ml-4'>Sign in with Google</span>
                 </button>
               </div>
-            </div>
+            </div> */}
             <div className='mt-4 text-center'>
               <p className='text-sm'>
                 Don't have an account?
