@@ -11,6 +11,7 @@ import {
 import Signin from './pages/Auth/signin';
 import Signup from './pages/Auth/signup';
 import Home from './pages/User/home';
+import Profile from './pages/User/profile';
 
 const PageRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const PageRoutes = () => {
           <Route path='/signin' element={<Signin />} />
           <Route path='/signup' element={<Signup />} />
         </Route>
+        <Route path='/profile' element={<Profile />} />
       </Routes>
     </Router>
   );
