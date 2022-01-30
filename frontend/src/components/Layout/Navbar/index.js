@@ -10,6 +10,7 @@ const Navbar = () => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const logout = async () => {
     await logoutUser(dispatch).then((response) => {
@@ -22,7 +23,7 @@ const Navbar = () => {
   };
   return (
     <div className='w-full text-white bg-primary-600'>
-      <div className='flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8'>
+      <div className='flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-8 lg:px-8'>
         <div className='py-6 px-3 flex flex-row items-center justify-between '>
           <Link
             to='/'
@@ -83,12 +84,69 @@ const Navbar = () => {
               </Link>
             </>
           ) : (
-            <span
-              onClick={logout}
-              className='cursor-pointer px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg  md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline'
-            >
-              Logout
-            </span>
+            <div className='relative inline-block '>
+              <button
+                className='relative z-10 flex items-center p-2 text-sm text-white bg-primary-600 border border-transparent rounded-md  focus:outline-none '
+                onClick={() => {
+                  setProfileOpen(!profileOpen);
+                }}
+              >
+                <span className='mx-1'>{auth.userInfo.name}</span>
+                <svg
+                  className='w-5 h-5 mx-1'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    d='M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 8.28799L5.98999 9.70199L12 15.713Z'
+                    fill='currentColor'
+                  ></path>
+                </svg>
+              </button>
+              <div
+                className={`absolute sm:left-5 md:right-20 z-20 w-56 py-2 mt-2 overflow-hidden bg-white rounded-md shadow-xl ${
+                  profileOpen ? 'block' : 'hidden'
+                }`}
+              >
+                <a
+                  href='/'
+                  className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-200 transform hover:bg-gray-100'
+                >
+                  <div className='mx-1'>
+                    <h1 className='text-sm font-semibold text-gray-700'>
+                      {auth.userInfo.name}
+                    </h1>
+                    <p className='text-sm text-gray-500'>
+                      {auth.userInfo.email}
+                    </p>
+                  </div>
+                </a>
+
+                <hr className='border-gray-200' />
+
+                <a
+                  href='/'
+                  className='block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform hover:bg-gray-100'
+                >
+                  view profile
+                </a>
+
+                <a
+                  href='/'
+                  className='block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform  hover:bg-gray-100 '
+                >
+                  Settings
+                </a>
+
+                <span
+                  className='block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform hover:bg-gray-100 cursor-pointer'
+                  onClick={logout}
+                >
+                  Sign Out
+                </span>
+              </div>
+            </div>
           )}
 
           {!open && (
@@ -99,7 +157,6 @@ const Navbar = () => {
               </span>
             </span>
           )}
-          {auth.isLoggedIn && <p>{auth.userInfo.name}</p>}
         </nav>
       </div>
       <Toast />
