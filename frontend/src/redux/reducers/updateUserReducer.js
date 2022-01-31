@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const authSlice = createSlice({
   name: 'userUpdate',
   initialState: {
+    passwordChangeLoading: false,
     loading: false,
     error: false,
   },
@@ -19,15 +20,15 @@ const authSlice = createSlice({
       state.loading = false;
     },
     updatePasswordInProgress: (state, action) => {
-      state.loading = true;
+      state.passwordChangeLoading = true;
     },
     updatePasswordSuccess: (state, action) => {
       state.error = false;
-      state.loading = false;
+      state.passwordChangeLoading = false;
     },
     updatePasswordError: (state, action) => {
       state.error = true;
-      state.loading = false;
+      state.passwordChangeLoading = false;
     },
   },
 });

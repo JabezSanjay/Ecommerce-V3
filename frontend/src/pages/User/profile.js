@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Navbar from '../../components/Layout/Navbar';
 import Sidebar from '../../components/Sidebar';
-import { updateUser } from './helpers';
+import { changePassword, updateUser } from './helpers';
 import Toast from '../../components/Toast';
 import { signinUserSuccess } from '../../redux/reducers/authReducer';
 
@@ -47,6 +47,18 @@ const Profile = () => {
     })
     .required();
 
+  const changePasswordSchema = yup
+    .object({
+      oldPassword: yup
+        .string()
+        .required('Old Password is required!')
+        .min(6, 'Old password must be atleast 6 characters long!'),
+      newPassword: yup
+        .string()
+        .required('New Password is required!')
+        .min(6, 'New password must be atleast 6 characters long!'),
+    })
+    .required();
   const {
     register: updateNameRegister,
     handleSubmit: updateNameHandleSubmit,
@@ -54,6 +66,7 @@ const Profile = () => {
   } = useForm({
     resolver: yupResolver(updateNameSchema),
   });
+
   const {
     register: updateShippingInfoRegister,
     handleSubmit: updateShippingInfoHandleSubmit,
@@ -61,6 +74,16 @@ const Profile = () => {
   } = useForm({
     resolver: yupResolver(updateShippingDetailsSchema),
   });
+
+  const {
+    register: changePasswordRegister,
+    handleSubmit: changePasswordHandleSubmit,
+    formState: { errors: changePasswordErrors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(changePasswordSchema),
+  });
+
   const auth = useSelector((state) => state.auth);
   const updateUserState = useSelector((state) => state.updateUser);
   const dispatch = useDispatch();
@@ -80,6 +103,16 @@ const Profile = () => {
         toast.success('User updated successfully!');
       }
     });
+  };
+  const onChangePasswordSubmit = async (data) => {
+    changePassword(data, dispatch).then((response) => {
+      if (!response.success) {
+        toast.error(response.message);
+      } else {
+        toast.success('Password changed successfully!');
+      }
+    });
+    reset();
   };
 
   return (
@@ -127,22 +160,43 @@ const Profile = () => {
               </div>
               <div className='lg:w-2/6 w-full mt-6'>
                 <h4 className='text-xl'>Change Password</h4>
-                <div className='flex flex-col'>
-                  <Input
-                    type='password'
-                    name='Old Password'
-                    placeholder='Enter your old password!'
-                    size='large'
-                    className='mr-12'
-                  />
-                  <Input
-                    type='password'
-                    name='New Password'
-                    placeholder='Enter your new password!'
-                    size='large'
-                  />
-                  <Button name='Update Password' loading={false} />
-                </div>
+                <form
+                  onSubmit={changePasswordHandleSubmit(onChangePasswordSubmit)}
+                >
+                  <div className='flex flex-col'>
+                    <Input
+                      type='password'
+                      name='Old Password'
+                      placeholder='Enter your old password!'
+                      size='large'
+                      className='mr-12'
+                      formValidation={{
+                        ...changePasswordRegister('oldPassword'),
+                      }}
+                      formInputName='oldPassword'
+                      errorText={changePasswordErrors?.oldPassword?.message}
+                      register={changePasswordRegister}
+                      error={changePasswordErrors}
+                    />
+                    <Input
+                      type='password'
+                      name='New Password'
+                      placeholder='Enter your new password!'
+                      size='large'
+                      formValidation={{
+                        ...changePasswordRegister('newPassword'),
+                      }}
+                      formInputName='newPassword'
+                      errorText={changePasswordErrors?.newPassword?.message}
+                      register={changePasswordRegister}
+                      error={changePasswordErrors}
+                    />
+                    <Button
+                      name='Update Password'
+                      loading={updateUserState.passwordChangeLoading}
+                    />
+                  </div>
+                </form>
               </div>
             </div>
             <form onSubmit={updateShippingInfoHandleSubmit(onSubmit)}>
@@ -226,7 +280,10 @@ const Profile = () => {
                       error={updateShippingInfoErrors}
                       value={auth.userInfo?.shippingInfo?.pincode || ''}
                     />
-                    <Button name='Update Address' loading={false} />
+                    <Button
+                      name='Update Address'
+                      loading={updateUserState.loading}
+                    />
                   </div>
                 </div>
               </div>

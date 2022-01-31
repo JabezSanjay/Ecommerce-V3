@@ -18,24 +18,35 @@ const PageRoutes = () => {
     <Router>
       <Routes>
         <Route path='/' index element={<Home />} />
-        <Route element={<LoggedInUsers />}>
+        <Route element={<AvoidCreateOrSignin />}>
           <Route path='/signin' element={<Signin />} />
           <Route path='/signup' element={<Signup />} />
         </Route>
-        <Route path='/profile' element={<Profile />} />
+        <Route element={<PrivateRoute />}>
+          <Route path='/profile' element={<Profile />} />
+        </Route>
       </Routes>
     </Router>
   );
 };
 
-function LoggedInUsers() {
+function AvoidCreateOrSignin() {
   const auth = useSelector((state) => state.auth);
   let location = useLocation();
 
   if (auth.isLoggedIn) {
     return <Navigate to='/' state={{ from: location }} />;
   }
+  return <Outlet />;
+}
 
+function PrivateRoute() {
+  const auth = useSelector((state) => state.auth);
+  let location = useLocation();
+
+  if (!auth.isLoggedIn) {
+    return <Navigate to='/' state={{ from: location }} />;
+  }
   return <Outlet />;
 }
 
