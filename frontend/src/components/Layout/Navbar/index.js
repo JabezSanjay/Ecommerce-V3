@@ -22,8 +22,8 @@ const Navbar = () => {
     });
   };
   return (
-    <div className='px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 shadow-md'>
-      <div className='relative flex items-center justify-between'>
+    <div className='px-4 py-5 mx-auto md:px-24 lg:px-8 shadow-md'>
+      <div className='relative flex items-center justify-around'>
         <a
           href='/'
           aria-label='EcommerceV2'
@@ -107,7 +107,7 @@ const Navbar = () => {
                 </a>
 
                 <span
-                  className='block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform hover:bg-gray-100 c'
+                  className='cursor-pointer block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform hover:bg-gray-100 c'
                   onClick={logout}
                 >
                   Sign Out

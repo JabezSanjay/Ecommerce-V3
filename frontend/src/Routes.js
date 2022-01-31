@@ -12,6 +12,7 @@ import Forgotpassword from './pages/Auth/forgotPassword';
 import Resetpassword from './pages/Auth/resetPassword';
 import Signin from './pages/Auth/signin';
 import Signup from './pages/Auth/signup';
+import Cart from './pages/User/cart';
 import Home from './pages/User/home';
 import Profile from './pages/User/profile';
 
@@ -20,6 +21,7 @@ const PageRoutes = () => {
     <Router>
       <Routes>
         <Route path='/' index element={<Home />} />
+        <Route path='/cart' index element={<Cart />} />
         <Route element={<AvoidCreateOrSignin />}>
           <Route path='/signin' element={<Signin />} />
           <Route path='/signup' element={<Signup />} />

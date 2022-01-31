@@ -121,7 +121,7 @@ const Profile = () => {
       <Sidebar page='profile'>
         <div className='container mx-auto py-10 md:w-4/5 w-11/12 px-6'>
           <div className='w-full h-full'>
-            <div className='flex flex-col justify-start items-end p-5'>
+            <div className='flex flex-col justify-start items-center p-5'>
               <h3 className='text-lg'>
                 Welcome
                 <span className='text-primary-600'> {auth.userInfo.name}!</span>
