@@ -87,9 +87,7 @@ exports.forgotPassword = BigPromise(async (req, res, next) => {
   }
   const forgotPasswordToken = await user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
-  const forgotPasswordUrl = `${req.protocol}://${req.get(
-    'host'
-  )}/api/password/reset/${forgotPasswordToken}`;
+  const forgotPasswordUrl = `${process.env.CLIENT_URL}/reset-password/${forgotPasswordToken}`;
   const message = `A unique link to reset your password has been generated for you. To reset your password, click the following link and follow the instructions.`;
   try {
     await mailHelper({

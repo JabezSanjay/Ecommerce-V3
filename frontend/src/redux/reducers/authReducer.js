@@ -40,6 +40,28 @@ const authSlice = createSlice({
     logoutUserError: (state, action) => {
       state.error = true;
     },
+    forgotPasswordInProgress: (state, action) => {
+      state.loading = true;
+    },
+    forgotPasswordSuccess: (state, action) => {
+      state.error = false;
+      state.loading = false;
+    },
+    forgotPasswordError: (state, action) => {
+      state.error = true;
+      state.loading = false;
+    },
+    resetPasswordInProgress: (state, action) => {
+      state.loading = true;
+    },
+    resetPasswordSuccess: (state, action) => {
+      state.error = false;
+      state.loading = false;
+    },
+    resetPasswordError: (state, action) => {
+      state.error = true;
+      state.loading = false;
+    },
   },
 });
 
@@ -52,5 +74,11 @@ export const {
   signinUserError,
   logoutUserSuccess,
   logoutUserError,
+  forgotPasswordInProgress,
+  forgotPasswordSuccess,
+  forgotPasswordError,
+  resetPasswordInProgress,
+  resetPasswordSuccess,
+  resetPasswordError,
 } = authSlice.actions;
 export default authSlice.reducer;

@@ -103,12 +103,11 @@ const Signin = () => {
             </div> */}
             <div className='mt-4 text-center'>
               <p className='text-sm'>
-                Don't have an account?
                 <Link
-                  to='/signup'
+                  to='/forgot-password'
                   className='text-primary-600 hover:underline ml-2'
                 >
-                  Sign up
+                  Forgot Password
                 </Link>
               </p>
             </div>

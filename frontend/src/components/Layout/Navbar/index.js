@@ -77,7 +77,7 @@ const Navbar = () => {
                 }`}
               >
                 <a
-                  href='/'
+                  href='/profile'
                   className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-200 transform hover:bg-gray-100'
                 >
                   <div className='mx-1'>
@@ -93,7 +93,7 @@ const Navbar = () => {
                 <hr className='border-gray-200' />
 
                 <a
-                  href='/'
+                  href='/profile'
                   className='block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform hover:bg-gray-100'
                 >
                   View profile

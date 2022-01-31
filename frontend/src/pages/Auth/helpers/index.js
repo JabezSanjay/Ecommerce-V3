@@ -1,7 +1,13 @@
 import axios from '../../../axiosConfig';
 import {
+  forgotPasswordError,
+  forgotPasswordInProgress,
+  forgotPasswordSuccess,
   logoutUserError,
   logoutUserSuccess,
+  resetPasswordError,
+  resetPasswordInProgress,
+  resetPasswordSuccess,
   signinUserError,
   signinUserInProgress,
   signinUserSuccess,
@@ -88,5 +94,35 @@ export const isAuthenticated = async () => {
     return User.getUserDetails();
   } else {
     return false;
+  }
+};
+
+export const forgotPassword = async (email, dispatch) => {
+  try {
+    dispatch(forgotPasswordInProgress());
+    let response = await axios.post('/forgot-password', email);
+    if (response.data.success) {
+      dispatch(forgotPasswordSuccess());
+    } else {
+      dispatch(forgotPasswordError(response.data.message));
+    }
+    return response.data;
+  } catch (error) {
+    await dispatch(forgotPasswordError());
+  }
+};
+
+export const resetPassword = async (password, dispatch, token) => {
+  try {
+    dispatch(resetPasswordInProgress());
+    let response = await axios.post(`/password/reset/${token}`, password);
+    if (response.data.success) {
+      dispatch(resetPasswordSuccess());
+    } else {
+      dispatch(resetPasswordError(response.data.message));
+    }
+    return response.data;
+  } catch (error) {
+    await dispatch(resetPasswordError());
   }
 };
