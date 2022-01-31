@@ -8,6 +8,8 @@ import {
   useLocation,
   Outlet,
 } from 'react-router-dom';
+import Forgotpassword from './pages/Auth/forgotPassword';
+import Resetpassword from './pages/Auth/resetPassword';
 import Signin from './pages/Auth/signin';
 import Signup from './pages/Auth/signup';
 import Home from './pages/User/home';
@@ -21,6 +23,8 @@ const PageRoutes = () => {
         <Route element={<AvoidCreateOrSignin />}>
           <Route path='/signin' element={<Signin />} />
           <Route path='/signup' element={<Signup />} />
+          <Route path='/forgot-password' element={<Forgotpassword />} />
+          <Route path='/reset-password/:id' element={<Resetpassword />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />} />
