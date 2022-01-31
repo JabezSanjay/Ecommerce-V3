@@ -160,9 +160,10 @@ exports.changePassword = BigPromise(async (req, res, next) => {
 });
 
 exports.updateUser = BigPromise(async (req, res, next) => {
-  const { name } = req.body;
+  const { name, shippingInfo } = req.body;
   const updatedData = {
     name: name,
+    shippingInfo: shippingInfo,
   };
   if (req.files) {
     const user = await User.findById(req.user.id);
@@ -180,7 +181,7 @@ exports.updateUser = BigPromise(async (req, res, next) => {
       secureUrl: updatedPhoto.secure_url,
     };
   }
-  await User.findByIdAndUpdate(req.user.id, updatedData, {
+  let user = await User.findByIdAndUpdate(req.user.id, updatedData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -188,6 +189,7 @@ exports.updateUser = BigPromise(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: 'User updated successfully!',
+    data: user,
   });
 });
 

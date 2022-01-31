@@ -22,7 +22,7 @@ const Navbar = () => {
     });
   };
   return (
-    <div className='px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8'>
+    <div className='px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 shadow-md'>
       <div className='relative flex items-center justify-between'>
         <a
           href='/'
@@ -178,7 +178,7 @@ const Navbar = () => {
             </svg>
           </button>
           {isMenuOpen && (
-            <div className='absolute top-0 left-0 w-full'>
+            <div className='absolute top-0 left-0 w-full z-50'>
               <div className='p-5 bg-white border rounded shadow-sm'>
                 <div className='flex items-center justify-between mb-4'>
                   <div>
@@ -210,71 +210,6 @@ const Navbar = () => {
                   </div>
                   <div className='flex'>
                     <span className='relative flex items-center md:mt-0 md:ml-4 cursor-pointer mr-5'>
-                      {auth.isLoggedIn && (
-                        <div className='relative inline-block '>
-                          <button
-                            className='relative z-10 flex items-center p-2 text-sm text-primary-600 bg-white border border-transparent rounded-md  focus:outline-none '
-                            onClick={() => {
-                              setProfileOpen(!profileOpen);
-                            }}
-                          >
-                            <span className='mx-1'>{auth.userInfo.name}</span>
-                            <svg
-                              className='w-5 h-5 mx-1'
-                              viewBox='0 0 24 24'
-                              fill='none'
-                              xmlns='http://www.w3.org/2000/svg'
-                            >
-                              <path
-                                d='M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 8.28799L5.98999 9.70199L12 15.713Z'
-                                fill='currentColor'
-                              ></path>
-                            </svg>
-                          </button>
-                          <div
-                            className={`absolute z-20 w-56 py-2 mt-2 overflow-hidden bg-white rounded-md shadow-xl ${
-                              profileOpen ? 'block' : 'hidden'
-                            }`}
-                          >
-                            <a
-                              href='/'
-                              className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-200 transform hover:bg-gray-100'
-                            >
-                              <div className='mx-1'>
-                                <h1 className='text-sm font-semibold text-gray-700'>
-                                  {auth.userInfo.name}
-                                </h1>
-                                <p className='text-sm text-gray-500'>
-                                  {auth.userInfo.email}
-                                </p>
-                              </div>
-                            </a>
-
-                            <hr className='border-gray-200' />
-
-                            <a
-                              href='/'
-                              className='block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform hover:bg-gray-100'
-                            >
-                              view profile
-                            </a>
-
-                            <a
-                              href='/'
-                              className='block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform  hover:bg-gray-100 '
-                            >
-                              Settings
-                            </a>
-
-                            <span
-                              className='block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform hover:bg-gray-100 c'
-                              onClick={logout}
-                            >
-                              Sign Out
-                            </span>
-                          </div>
-                        </div>
-                      )}
                       <img src={CartIcon} alt='Cart' className='w-8 h-8' />
                       <span className='absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full'>
                         0

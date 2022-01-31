@@ -23,7 +23,7 @@ const authSlice = createSlice({
     signinUserInProgress: (state, action) => {
       state.loading = true;
     },
-    signinUserSuccess: (state, action) => {
+    signinUserSuccess: (state, action, update) => {
       state.isLoggedIn = true;
       state.userInfo = action.payload;
       state.error = false;
