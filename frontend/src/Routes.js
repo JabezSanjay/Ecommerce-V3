@@ -14,6 +14,7 @@ import Signin from './pages/Auth/signin';
 import Signup from './pages/Auth/signup';
 import Cart from './pages/User/cart';
 import Home from './pages/User/home';
+import NotFound from './pages/User/NotFound';
 import Profile from './pages/User/profile';
 
 const PageRoutes = () => {
@@ -31,6 +32,7 @@ const PageRoutes = () => {
         <Route element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />} />
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );

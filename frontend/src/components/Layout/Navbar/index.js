@@ -116,12 +116,15 @@ const Navbar = () => {
             </div>
           )}
           <li>
-            <span className='relative flex items-center md:mt-0 md:ml-4 cursor-pointer'>
+            <Link
+              to='/cart'
+              className='relative flex items-center md:mt-0 md:ml-4 cursor-pointer'
+            >
               <img src={CartIcon} alt='Cart' className='w-8 h-8' />
               <span className='absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full'>
                 0
               </span>
-            </span>
+            </Link>
           </li>
           <li>
             {!auth.isLoggedIn ? (
