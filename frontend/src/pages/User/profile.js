@@ -97,8 +97,6 @@ const Profile = () => {
     } else {
       userData = data;
     }
-
-    console.log(userData);
     updateUser(userData, dispatch).then((response) => {
       if (!response.success) {
         toast.error(response.message);

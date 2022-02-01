@@ -8,6 +8,7 @@ import {
   useLocation,
   Outlet,
 } from 'react-router-dom';
+import AdminProducts from './pages/Admin/adminProducts';
 import Forgotpassword from './pages/Auth/forgotPassword';
 import Resetpassword from './pages/Auth/resetPassword';
 import Signin from './pages/Auth/signin';
@@ -32,6 +33,9 @@ const PageRoutes = () => {
         <Route element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />} />
         </Route>
+        <Route element={<AdminRoute />}>
+          <Route path='/admin/products' index element={<AdminProducts />} />
+        </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
@@ -53,6 +57,16 @@ function PrivateRoute() {
   let location = useLocation();
 
   if (!auth.isLoggedIn) {
+    return <Navigate to='/' state={{ from: location }} />;
+  }
+  return <Outlet />;
+}
+
+function AdminRoute() {
+  const auth = useSelector((state) => state.auth);
+  let location = useLocation();
+
+  if (!auth.isLoggedIn || auth.userInfo.role !== 'admin') {
     return <Navigate to='/' state={{ from: location }} />;
   }
   return <Outlet />;

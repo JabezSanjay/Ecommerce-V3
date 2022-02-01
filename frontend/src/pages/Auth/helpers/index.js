@@ -86,11 +86,12 @@ export const getUserDetails = async () => {
   }
 };
 
-export const isAuthenticated = async () => {
+export const isAuthenticated = () => {
   if (typeof window == 'undefined') {
+    console.log('HERE');
     return false;
   }
-  if (await User.getUserDetails()) {
+  if (User.getUserDetails()) {
     return User.getUserDetails();
   } else {
     return false;
