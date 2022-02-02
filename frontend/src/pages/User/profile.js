@@ -120,7 +120,7 @@ const Profile = () => {
   return (
     <>
       <Navbar />
-      <Sidebar page='profile'>
+      <Sidebar page='profile' userType={auth?.userInfo?.role}>
         <div className='container mx-auto py-10 md:w-4/5 w-11/12 px-6'>
           <div className='w-full h-full'>
             <div className='flex flex-col justify-start items-center p-5'>
