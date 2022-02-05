@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CartIcon from '../../../assets/images/icons/cart-icon.png';
 import { logoutUser } from '../../../pages/Auth/helpers';
+import Button from '../../Button';
 import Toast from '../../Toast';
 
 const Navbar = () => {
@@ -147,14 +148,15 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <button
+              <Button
                 onClick={logout}
-                className='inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-primary-600 hover:bg-primary-600 hover:text-white focus:shadow-outline focus:outline-none'
-                aria-label='Log out'
+                size='small'
+                name='Log out'
                 title='Logout'
+                loading={false}
               >
                 Logout
-              </button>
+              </Button>
             )}
           </li>
         </ul>
