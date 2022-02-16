@@ -8,7 +8,7 @@ import {
   useLocation,
   Outlet,
 } from 'react-router-dom';
-import AdminProducts from './pages/Admin/adminProducts';
+import AdminProducts from './pages/Admin/Products/adminProducts';
 import Forgotpassword from './pages/Auth/forgotPassword';
 import Resetpassword from './pages/Auth/resetPassword';
 import Signin from './pages/Auth/signin';

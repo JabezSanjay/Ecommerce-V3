@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Navbar from '../../components/Layout/Navbar';
-import Sidebar from '../../components/Sidebar';
-import DataTableCrudDemo from '../../components/TableLayout';
+import Button from '../../../components/Button';
+import Navbar from '../../../components/Layout/Navbar';
+import Sidebar from '../../../components/Sidebar';
 
 const AdminProducts = () => {
   const auth = useSelector((state) => state.auth);
@@ -17,7 +17,7 @@ const AdminProducts = () => {
           >
             <div className='w-full h-full'>
               <div className='flex flex-col items-end p-5'>
-                <DataTableCrudDemo />
+                <Button loading={false} name='Add product' size='small' />
               </div>
             </div>
           </div>
